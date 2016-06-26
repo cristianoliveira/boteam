@@ -1,0 +1,33 @@
+{
+  "name": "boteam",
+  "version": "0.0.1",
+  "description": "Bot to help manage teams",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cristianoliveira/boteam.git"
+  },
+  "keywords": [
+    "bot",
+    "team",
+    "slack"
+  ],
+  "author": "Cristian Oliveira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cristianoliveira/boteam/issues"
+  },
+  "homepage": "https://github.com/cristianoliveira/boteam#readme",
+  "dependencies": {
+    "botkit": "^0.2.2",
+    "mongodb": "^2.1.18"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mongoose": "^4.2.2",
+    "sinon": "^1.17.4"
+  }
+}
