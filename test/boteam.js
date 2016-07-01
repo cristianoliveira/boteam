@@ -1,6 +1,6 @@
 var assert = require('chai').assert,
   sinon = require('sinon'),
-  repository = require('../lib/repository.js'),
+  repo = require('../lib/repository.js'),
   Boteam = require('../lib/boteam.js'),
   bot = {},
   message = {},
@@ -10,7 +10,7 @@ describe('When adding member to team', function() {
   beforeEach(function() {
     message = {};
     bot.reply = sinon.spy();
-    boteam = Boteam(repository);
+    boteam = Boteam(repo);
   });
 
   describe('no member mentioned', function () {
@@ -29,15 +29,15 @@ describe('When adding member to team', function() {
         channel= "channel_id",
         teamMemberSpy;
 
-      repository.teamMember.add = sinon.spy();
+      repo.teamMember.add = sinon.spy();
 
       message.text =  "add " + slackId;
       message.channel = channel;
 
       boteam.onAdd(bot, message);
 
-      assert.isTrue(repository.teamMember.add.calledOnce);
-      repository.teamMember.add.calledWith({
+      assert.isTrue(repo.teamMember.add.calledOnce);
+      repo.teamMember.add.calledWith({
         channel: channel,
         slackId: slackId
       });
@@ -49,19 +49,19 @@ describe('When adding member to team', function() {
         channel= "channel_id",
         teamMemberSpy;
 
-      repository.teamMember.add = sinon.spy();
+      repo.teamMember.add = sinon.spy();
 
       message.text =  "add " + slackId1 + " and " + slackId2;
       message.channel = channel;
 
       boteam.onAdd(bot, message);
 
-      assert.isTrue(repository.teamMember.add.calledTwice);
-      repository.teamMember.add.calledWith({
+      assert.isTrue(repo.teamMember.add.calledTwice);
+      repo.teamMember.add.calledWith({
         channel: channel,
         slackId: slackId1
       });
-      repository.teamMember.add.calledWith({
+      repo.teamMember.add.calledWith({
         channel: channel,
         slackId: slackId2
       });
@@ -73,7 +73,7 @@ describe('When requesting help', function() {
   beforeEach(function() {
     message = {};
     bot.reply = sinon.spy();
-    boteam = Boteam(repository);
+    boteam = Boteam(repo);
   });
 
   describe("empty team", function(){
@@ -95,8 +95,8 @@ describe('When requesting help', function() {
       message.text = "SOS";
       message.channel = channel;
 
-      repository.teamMember.fromChannel = sinon.stub()
-      repository.teamMember.fromChannel.yields(error, null);
+      repo.teamMember.fromChannel = sinon.stub()
+      repo.teamMember.fromChannel.yields(error, null);
 
       boteam.onHelp(bot, message);
 
@@ -117,8 +117,8 @@ describe('When requesting help', function() {
       message.text = "SOS";
       message.channel = channel;
 
-      repository.teamMember.fromChannel = sinon.stub()
-      repository.teamMember.fromChannel.yields(null, members);
+      repo.teamMember.fromChannel = sinon.stub()
+      repo.teamMember.fromChannel.yields(null, members);
 
       boteam.onHelp(bot, message);
 
