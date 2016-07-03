@@ -8,7 +8,7 @@ var Botkit = require('botkit'),
   uridb;
 
 controller = Botkit.slackbot({
-  debug: false
+  debug: true
 });
 
 controller.spawn({
@@ -27,3 +27,5 @@ boteam = Boteam(repo);
 controller.hears('add',['direct_mention','mention'], boteam.onAdd);
 controller.hears('help',['direct_mention','mention'], boteam.onHelp);
 controller.hears('options',['direct_mention','mention'], boteam.onOptions);
+controller.hears('/@(channel|here|everyone)/g',['message_received'],
+                 boteam.onChannelCall);

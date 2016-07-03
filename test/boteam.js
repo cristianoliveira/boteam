@@ -66,6 +66,27 @@ describe('When adding member to team', function() {
         slackId: slackId2
       });
     });
+
+    it('should warning for duplicated', function () {
+      var slackId1 = "<@U1NCN9DAS>",
+        channel= "channel_id",
+        teamMemberSpy,
+        duplicatedError;
+
+      duplicatedError = {
+        code: 11000
+      };
+
+      repo.teamMember.add = sinon.stub()
+      repo.teamMember.add.yields(duplicatedError, null);
+
+      message.text =  "add " + slackId1;
+      message.channel = channel;
+
+      boteam.onAdd(bot, message);
+      bot.reply.calledWith(message, "Is already member of the team.");
+      assert.isTrue(bot.reply.calledOnce);
+    });
   });
 });
 
