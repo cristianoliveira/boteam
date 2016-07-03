@@ -30,6 +30,7 @@
     "gulp": "^3.9.1",
     "gulp-jshint": "^2.0.1",
     "gulp-mocha": "^2.2.0",
+    "gulp-watch": "^4.3.8",
     "jshint": "^2.9.2",
     "mongoose": "^4.2.2",
     "sinon": "^1.17.4"
