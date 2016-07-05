@@ -1,0 +1,42 @@
+---
+- name: ensure apt cache is up to date
+  apt: update_cache=yes
+
+- name: ensure packages are installed
+  apt: name={{item}}
+  with_items:
+    - wget
+    - curl
+    - htop
+    - git-core
+    - language-pack-pt
+
+- name: copy host ssh public key to vagrant
+  copy: src=~/.ssh/vagrant_rsa.pub dest=/home/vagrant/.ssh/id_rsa.pub owner=vagrant group=staff mode=0644
+
+- name: copy host ssh private key to vagrant
+  copy: src=~/.ssh/vagrant_rsa dest=/home/vagrant/.ssh/id_rsa owner=vagrant group=staff mode=0600
+
+- name: add gitlab to the known_hosts file
+  copy:
+    dest: /home/vagrant/.ssh/known_hosts
+    owner: vagrant
+    content: |
+      gitlab.globoi.com,10.70.131.23 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEApbJgiLqId1qg2+GPkJDWlvQV5GWQMkaJ4DMYW2EIM7RIBLb50Vb904KvWc+gG0ZsokC01loumMalPEwTq4BO1Vr5iHI77T2+rWxGStHJzZInD7nUirLO5agtX080DaZ02RLQ+7HR4atISqJL2Nsfhc4uVVihThsAvSieI5qWcIWcyPNqGi22EMTbsYd8xNWtltRsHnb0wyeCbtxtJIFvvcqbdeNHfBxQLQTkypVz4YQaGYPf3Nciba9nJANSXM8rjP7ZWc6HEIXJqL5BQOSWjhGNs+gDEzgUygwQ//OLIfRQpy0QYewdtUX21X+wTJBsDoqeZ50leKN4sqM2nY7fwQ==
+
+- name: add development hosts
+  copy:
+    dest: /etc/hosts
+    owner: root
+    content: |
+      127.0.0.1 localhost
+
+      # The following lines are desirable for IPv6 capable hosts
+      ::1 ip6-localhost ip6-loopback
+      fe00::0 ip6-localnet
+      ff00::0 ip6-mcastprefix
+      ff02::1 ip6-allnodes
+      ff02::2 ip6-allrouters
+      ff02::3 ip6-allhosts
+
+      127.0.0.1    local.dev.globoi.com

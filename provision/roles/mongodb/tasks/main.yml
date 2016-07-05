@@ -1,0 +1,17 @@
+---
+- name: add key
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=7F0CEB10
+
+- name: create list file for MongoDB
+  shell: echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+
+- name: ensure apt cache is up to date
+  apt: update_cache=yes
+
+- name: ensure mongodb-org packages are installed
+  apt: name={{item}}
+  with_items:
+    - mongodb-org
+
+- name: ensure mongodb service is running
+  service: name=mongod state=started

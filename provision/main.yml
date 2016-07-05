@@ -1,0 +1,11 @@
+---
+- name: Set up the development env.
+  hosts: all
+  sudo: yes
+  vars:
+    http_port: 80
+  remote_user: root
+  roles:
+    - common
+    - nodejs
+    - mongodb

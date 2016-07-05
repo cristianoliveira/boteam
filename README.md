@@ -1,2 +1,18 @@
 # boteam
 A open source bot for teams in Slack.
+
+# Development
+This projects uses vagrant and ansible for provising a simple
+development enviroment. To use it just follow this instructions.
+Make sure you have installed:
+
+ - VirtualBox
+ - Vagrant
+ - Ansible
+
+ Then run:
+ ```bash
+ vagrant up
+ vagrant ssh -c 'SLACK_TOKEN=MYTOKEN node /projects/app.js'
+ ```
+ The project sync folder is `/projects`
