@@ -1,5 +1,5 @@
 module.exports = {
-  // Token of Bot from Slack
+  // Token for Bots in Slack
   // see more: https://api.slack.com/custom-integrations
   token: process.env.SLACK_TOKEN,
 

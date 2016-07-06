@@ -56,15 +56,14 @@ describe('When adding member to team', function() {
 
       boteam.onAdd(bot, message);
 
-      assert.isTrue(repo.teamMember.add.calledTwice);
-      repo.teamMember.add.calledWith({
+      assert.isTrue(repo.teamMember.add.calledOnce);
+      repo.teamMember.add.calledWith([{
         channel: channel,
         slackId: slackId1
-      });
-      repo.teamMember.add.calledWith({
+      }, {
         channel: channel,
         slackId: slackId2
-      });
+      }]);
     });
 
     it('should warning for duplicated', function () {
@@ -86,6 +85,69 @@ describe('When adding member to team', function() {
       boteam.onAdd(bot, message);
       bot.reply.calledWith(message, "Is already member of the team.");
       assert.isTrue(bot.reply.calledOnce);
+    });
+  });
+});
+
+describe('When removing member from team', function() {
+  beforeEach(function() {
+    message = {};
+    bot.reply = sinon.spy();
+    boteam = Boteam(repo);
+  });
+
+  describe('no member mentioned', function () {
+    it('should reply with error message', function () {
+      message.text =  "remove cristian";
+      boteam.onRemove(bot, message);
+      sinon.assert.calledWith(bot.reply,
+                              message,
+                              "Sorry I couldn't understand who remove. :(");
+    });
+  });
+
+  describe('member mentioned', function () {
+    it('should remove from the team', function () {
+      var slackId= "<@U1NCN9DAS>",
+        channel= "channel_id",
+        teamMemberSpy;
+
+      repo.teamMember.remove = sinon.spy();
+
+      message.text =  "remove " + slackId;
+      message.channel = channel;
+
+      boteam.onRemove(bot, message);
+
+      assert.isTrue(repo.teamMember.remove.calledOnce);
+      repo.teamMember.remove.calledWith({
+        channel: channel,
+        slackId: slackId
+      });
+    });
+
+    it('should add more than one to the team', function () {
+      var slackId1 = "<@U1NCN9DAS>",
+        slackId2 = "<@U1NCN9QWE>",
+        channel= "channel_id",
+        teamMemberSpy;
+
+      repo.teamMember.remove = sinon.spy();
+
+      message.text =  "remove " + slackId1 + " and " + slackId2;
+      message.channel = channel;
+
+      boteam.onRemove(bot, message);
+
+      assert.isTrue(repo.teamMember.remove.calledOnce);
+      repo.teamMember.add.calledWith([{
+        channel: channel,
+        slackId: slackId1
+      },
+      {
+        channel: channel,
+        slackId: slackId2
+      }]);
     });
   });
 });

@@ -25,6 +25,7 @@ mongoose.connect(settings.uridb);
 
 boteam = Boteam(repo);
 controller.hears('add',['direct_mention','mention'], boteam.onAdd);
+controller.hears('remove',['direct_mention','mention'], boteam.onRemove);
 controller.hears('help',['direct_mention','mention'], boteam.onHelp);
 controller.hears('options',['direct_mention','mention'], boteam.onOptions);
 controller.hears('/@(channel|here|everyone)/g',['message_received'],
