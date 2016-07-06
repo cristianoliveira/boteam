@@ -4,7 +4,7 @@ var gulp = require('gulp'),
   watch = require('gulp-watch'),
   paths = {
     lib: './lib/*.js',
-    tests: './tests/*.js'
+    tests: './test/**.js'
   };
 
 gulp.task('watch', function () {
@@ -13,7 +13,8 @@ gulp.task('watch', function () {
 });
 
 gulp.task('test', function(){
-  return gulp.src(paths.tests, {read: false}).pipe(mocha({reporter: 'nyan'}));
+  return gulp.src(paths.tests, {read: false})
+             .pipe(mocha({reporter: 'nyan'}));
 });
 
 gulp.task('lint', function() {
