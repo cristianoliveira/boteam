@@ -13,6 +13,7 @@ Make sure you have installed:
  Then run:
  ```bash
  vagrant up
+ vagrant ssh -c 'cd /projects/ && npm install'
  vagrant ssh -c 'SLACK_TOKEN=MYTOKEN node /projects/app.js'
  ```
  The project sync folder is `/projects`
