@@ -189,25 +189,6 @@ describe('When requesting help', function() {
     });
   });
 
-  describe("has error", function(){
-    it("should say was not removed", function() {
-      var channel = "CHANELID",
-        members = [],
-        error = "some cause";
-
-      message.text = "SOS";
-      message.channel = channel;
-
-      repo.teamMember.fromChannel = sinon.stub()
-      repo.teamMember.fromChannel.yields(error, null);
-
-      boteam.onHelp(bot, message);
-
-      bot.reply.calledWith(message,
-                           "Sorry was not possible remove. Cause: " + error);
-    });
-  });
-
   describe("has team", function(){
     it("should mention the member", function() {
       var channel = "CHANELID",
