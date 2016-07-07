@@ -87,6 +87,16 @@ describe('When adding member to team', function() {
       assert.isTrue(bot.reply.calledOnce);
     });
   });
+
+  describe('here|channel|everyone mentioned', function () {
+    it("shouldn't add none", function() {
+      message.text =  "add <@here|here> <@channel|!channel> <@everyone|!everyone>";
+      boteam.onAdd(bot, message);
+      sinon.assert.calledWith(bot.reply,
+                              message,
+                              "Sorry I couldn't understand who add. :(");
+    });
+  });
 });
 
 describe('When removing member from team', function() {
@@ -148,6 +158,16 @@ describe('When removing member from team', function() {
         channel: channel,
         slackId: slackId2
       }]);
+    });
+  });
+
+  describe('here|channel|everyone mentioned', function () {
+    it("shouldn't add none", function() {
+      message.text =  "remove <@here|here> <@channel|!channel> <@everyone|!everyone>";
+      boteam.onRemove(bot, message);
+      sinon.assert.calledWith(bot.reply,
+                              message,
+                              "Sorry I couldn't understand who remove. :(");
     });
   });
 });
