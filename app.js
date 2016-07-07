@@ -4,11 +4,10 @@ var Botkit = require('botkit'),
   settings = require('./settings.js'),
   repo = require('./lib/repository.js'),
   controller,
-  db,
-  uridb;
+  db;
 
 controller = Botkit.slackbot({
-  debug: true
+  debug: settings.debug
 });
 
 controller.spawn({
@@ -24,9 +23,4 @@ db.once('open', function() {
 mongoose.connect(settings.uridb);
 
 boteam = Boteam(repo);
-controller.hears('add',['direct_mention','mention'], boteam.onAdd);
-controller.hears('remove',['direct_mention','mention'], boteam.onRemove);
-controller.hears('help',['direct_mention','mention'], boteam.onHelp);
-controller.hears('options',['direct_mention','mention'], boteam.onOptions);
-controller.hears('/@(channel|here|everyone)/g',['message_received'],
-                 boteam.onChannelCall);
+boteam.bind(controller);
