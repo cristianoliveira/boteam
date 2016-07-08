@@ -1,5 +1,5 @@
 # boteam
-A open source bot for teams in Slack.
+An open source bot for teams in Slack.
 
 Simple as this gif:
 
