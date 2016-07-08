@@ -22,5 +22,5 @@ db.once('open', function() {
 
 mongoose.connect(settings.uridb);
 
-boteam = Boteam(repo);
+boteam = Boteam(repo());
 boteam.bind(controller);

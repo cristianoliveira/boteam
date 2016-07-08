@@ -10,6 +10,11 @@ describe('When adding member to team', function() {
   beforeEach(function() {
     message = {};
     bot.reply = sinon.spy();
+
+    repo.fromChannel = sinon.stub()
+    repo.add = sinon.stub()
+    repo.remove = sinon.stub()
+
     boteam = Boteam(repo);
   });
 
@@ -29,15 +34,13 @@ describe('When adding member to team', function() {
         channel= "channel_id",
         teamMemberSpy;
 
-      repo.teamMember.add = sinon.spy();
-
       message.text =  "add " + slackId;
       message.channel = channel;
 
       boteam.onAdd(bot, message);
 
-      assert.isTrue(repo.teamMember.add.calledOnce);
-      repo.teamMember.add.calledWith({
+      assert.isTrue(repo.add.calledOnce);
+      repo.add.calledWith({
         channel: channel,
         slackId: slackId
       });
@@ -49,15 +52,13 @@ describe('When adding member to team', function() {
         channel= "channel_id",
         teamMemberSpy;
 
-      repo.teamMember.add = sinon.spy();
-
       message.text =  "add " + slackId1 + " and " + slackId2;
       message.channel = channel;
 
       boteam.onAdd(bot, message);
 
-      assert.isTrue(repo.teamMember.add.calledOnce);
-      repo.teamMember.add.calledWith([{
+      assert.isTrue(repo.add.calledOnce);
+      repo.add.calledWith([{
         channel: channel,
         slackId: slackId1
       }, {
@@ -76,8 +77,7 @@ describe('When adding member to team', function() {
         code: 11000
       };
 
-      repo.teamMember.add = sinon.stub()
-      repo.teamMember.add.yields(duplicatedError, null);
+      repo.add.yields(duplicatedError, null);
 
       message.text =  "add " + slackId1;
       message.channel = channel;
@@ -122,15 +122,13 @@ describe('When removing member from team', function() {
         channel= "channel_id",
         teamMemberSpy;
 
-      repo.teamMember.remove = sinon.spy();
-
       message.text =  "remove " + slackId;
       message.channel = channel;
 
       boteam.onRemove(bot, message);
 
-      assert.isTrue(repo.teamMember.remove.calledOnce);
-      repo.teamMember.remove.calledWith({
+      assert.isTrue(repo.remove.calledOnce);
+      repo.remove.calledWith({
         channel: channel,
         slackId: slackId
       });
@@ -142,15 +140,12 @@ describe('When removing member from team', function() {
         channel= "channel_id",
         teamMemberSpy;
 
-      repo.teamMember.remove = sinon.spy();
-
       message.text =  "remove " + slackId1 + " and " + slackId2;
       message.channel = channel;
 
       boteam.onRemove(bot, message);
 
-      assert.isTrue(repo.teamMember.remove.calledOnce);
-      repo.teamMember.add.calledWith([{
+      repo.remove.calledWith([{
         channel: channel,
         slackId: slackId1
       },
@@ -198,11 +193,32 @@ describe('When requesting help', function() {
       member1 = { slackId: "xpto" };
       members.push(member1);
 
-      message.text = "SOS";
+      message.text = "help";
       message.channel = channel;
 
-      repo.teamMember.fromChannel = sinon.stub()
-      repo.teamMember.fromChannel.yields(null, members);
+      repo.fromChannel.yields(null, members);
+
+      boteam.onHelp(bot, message);
+
+      bot.reply.calledWith(message,
+                           "Guys please help here. Team: " + member1.slackId);
+    });
+
+    it("should mention the members", function() {
+      var channel = "CHANELID",
+        member1 = {},
+        member2 = {},
+        members = [];
+
+      member1 = { slackId: "xpto" };
+      member2 = { slackId: "foo" }
+      members.push(member1);
+      members.push(member2);
+
+      message.text = "help";
+      message.channel = channel;
+
+      repo.fromChannel.yields(null, members);
 
       boteam.onHelp(bot, message);
 
