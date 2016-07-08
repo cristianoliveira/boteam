@@ -1,6 +1,9 @@
 # boteam
 A open source bot for teams in Slack.
 
+Simple as this gif:
+![demo](https://raw.githubusercontent.com/cristianoliveira/boteam/master/boteam.gif)
+
 # Development
 This projects uses vagrant and ansible for provising a simple
 development enviroment. To use it just follow this instructions.
