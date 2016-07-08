@@ -2,6 +2,7 @@
 A open source bot for teams in Slack.
 
 Simple as this gif:
+
 ![demo](https://raw.githubusercontent.com/cristianoliveira/boteam/master/boteam.gif)
 
 # Development
